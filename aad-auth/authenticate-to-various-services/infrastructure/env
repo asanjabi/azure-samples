@@ -1,0 +1,6 @@
+#! /bin/bash
+export ResourceGroup="AAD-Auth-Samples"
+export Location="westus"
+
+#If not defined current user will be picked, specify a user (user@domain) or group name
+export AdminName
