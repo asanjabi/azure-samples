@@ -1,15 +1,14 @@
 param location string = resourceGroup().location
-param databaseName string
-param AdminSid string
-param AdminSidType string
-param AdminLogin string
-param logAnalyticsId string
+param serverName string
+param adminSid string
+param adminSidType string
+param adminLogin string
 
 param tags object = {}
 
 resource SqlServer 'Microsoft.Sql/servers@2021-08-01-preview'={
   location: location
-  name:  databaseName
+  name:  serverName
   tags: tags
   identity:{
     type: 'SystemAssigned'
@@ -20,9 +19,11 @@ resource SqlServer 'Microsoft.Sql/servers@2021-08-01-preview'={
     administrators:{
       azureADOnlyAuthentication: true
       administratorType: 'ActiveDirectory'
-      principalType: AdminSidType
-      sid: AdminSid
-      login: AdminLogin
+      principalType: adminSidType
+      sid: adminSid
+      login: adminLogin
     }
   }
 }
+
+output serverName string = SqlServer.name

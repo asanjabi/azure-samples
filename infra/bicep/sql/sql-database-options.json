@@ -1,0 +1,93 @@
+{
+    "skus":{
+        "serverTier":{
+            "name":"",
+            "capacity":"",
+            "family":"",
+            "size":"",
+            "tier":""
+        },
+        "small_dtu_based":{
+            "name": "Basic",
+            "tier": "Basic",
+            "capacity": 5
+        },
+        "medium_dtu_based":{
+            "name": "Standard",
+            "tier": "Standard",
+            "capacity": 10
+        },
+        "small_serverless":{
+            "name": "GP_S_Gen5",
+            "tier": "GeneralPurpose",
+            "family": "Gen5",
+            "capacity": 1
+        },
+        "medium_serverless":{
+            "name": "GP_S_Gen5",
+            "tier": "GeneralPurpose",
+            "family": "Gen5",
+            "capacity": 5
+        }
+    },
+    "diagnostics":{
+        "logs": {
+            "all_logs":[
+                {
+                  "category": "SQLInsights",
+                  "enabled": true
+                },
+                {
+                  "category": "AutomaticTuning",
+                  "enabled": true
+                },
+                {
+                  "category": "QueryStoreRuntimeStatistics",
+                  "enabled": true
+                },
+                {
+                  "category": "Errors",
+                  "enabled": true
+                },
+                {
+                  "category": "DatabaseWaitStatistics",
+                  "enabled": true
+                },
+                {
+                  "category": "Timeouts",
+                  "enabled": true
+                },
+                {
+                  "category": "Blocks",
+                  "enabled": true
+                },
+                {
+                  "category": "Deadlocks",
+                  "enabled": true
+                },
+                {
+                  "category": "QueryStoreWaitStatistics",
+                  "enabled": true
+                }
+               ]
+        },
+        "metrics":{
+            "all_metrics":[
+                {
+                  "category": "Basic",
+                  "enabled": true
+                },
+                {
+                  "category": "InstanceAndAppAdvanced",
+                  "enabled": true
+                },
+                {
+                  "category": "WorkloadManagement",
+                  "enabled": true
+                }
+              ]
+        }
+    }
+}
+
+

@@ -33,7 +33,7 @@ createRg "${ResourceGroup:?}" "${Location:?}"
 az deployment group create -g "${ResourceGroup:?}" -n "${ResourceGroup:?}"-deployment \
     -f main.bicep \
     -p AdminSid=$AdminSid \
-    -p AdminSidType=$AdminSidType
+    -p AdminSidType=$AdminSidType \
     -p AdminLogin=$AdminLogin
 
 popd

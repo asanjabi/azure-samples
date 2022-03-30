@@ -21,8 +21,8 @@ getGroupSid(){
 }
 
 
-#Pass in userid or group name and variable names to assign Sid and type
-#ex. getBestSid name@org.com Sid SidType
+#Pass in userid or group name and variable names to assign Sid, type and Login
+#ex. getBestSid name@org.com Sid SidType Login
 getBestSid(){
     local SID
     local SID_TYPE
@@ -44,7 +44,7 @@ getBestSid(){
         LOGIN=$(getLoggedInUserLogin)
     fi
 
-    if [ $# -lt 3 ]
+    if [ $# -lt 4 ]
     then
         eval ${1:-}=$SID
         eval ${2:-}=$SID_TYPE
