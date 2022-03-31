@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "ReceiverFunction": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SenderFunction": {
+      "commandName": "Project",
+      "commandLineArgs": "-p 7072"
+    }
+  }
+}
