@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderFunction", "SenderFun
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceiverFunction", "ReceiverFunction\ReceiverFunction.csproj", "{DB2AD297-2DF0-418A-B1C7-3A5BCCE91B22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBusConsoleApp", "ServiceBusConsoleApp\ServiceBusConsoleApp.csproj", "{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DB2AD297-2DF0-418A-B1C7-3A5BCCE91B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2AD297-2DF0-418A-B1C7-3A5BCCE91B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB2AD297-2DF0-418A-B1C7-3A5BCCE91B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
