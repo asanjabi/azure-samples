@@ -1,4 +1,8 @@
 {
+    "constants":{
+        "maxServerNameLength": 128,
+        "maxDatabaseNameLength": 128
+    },
     "skus":{
         "serverTier":{
             "name":"",

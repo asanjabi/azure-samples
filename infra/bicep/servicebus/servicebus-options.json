@@ -1,0 +1,31 @@
+{
+    "constants":{
+        "servicebusNamespaceMaxLength":50
+    },
+    "diagnostics":{
+        "logs":{
+            "all_logs":[
+                {
+                    "category":"OperationalLogs",
+                    "enabled": true
+                },
+                {
+                    "category":"VNetAndIPFilteringLogs",
+                    "enabled":true
+                },
+                {
+                    "category":"RuntimeAuditLogs",
+                    "enabled": true
+                }
+            ]
+        },
+        "metrics":{
+            "all_metrics":[
+                {
+                    "category":"AllMetrics",
+                    "enabled": true
+                }
+            ]
+        }
+    }
+}

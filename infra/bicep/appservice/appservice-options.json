@@ -1,0 +1,42 @@
+{
+    "constants":{
+        "appServicePlanMaxNameLength": 40,
+        "kinds":{
+            "kind_functions" : "functionapp",
+            "kind_linux": "linux",
+            "kind_windows": "app"
+        }
+    },
+    "skus":{
+        "dev_free":{
+        },
+        "dev_small":{
+            "name": "B1",
+            "tier": "Basic",
+            "size": "B1",
+            "family": "B",
+            "capacity": 1
+        },
+        "dev_medium":{
+            "name": "B2",
+            "tier": "Basic",
+            "size": "B2",
+            "family": "B",
+            "capacity": 1
+        },
+        "dev_large":{
+            "name": "B3",
+            "tier": "Basic",
+            "size": "B3",
+            "family": "B",
+            "capacity": 1
+        },
+        "severless_functions":{
+            "name": "Y1",
+            "tier": "Dynamic",
+            "size": "Y1",
+            "family": "Y",
+            "capacity": 0
+        }
+    }
+}

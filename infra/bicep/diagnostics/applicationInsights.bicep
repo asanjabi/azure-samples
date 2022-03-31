@@ -2,6 +2,7 @@ param location string = resourceGroup().location
 param appInsightsName string
 param logAnalyticsId string
 param tags object = {}
+param roles array = []
 
 
 
@@ -80,3 +81,16 @@ resource appInsightsDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@20
 output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
 output appInsightsIngestionEndpoiont string = appInsights.properties.publicNetworkAccessForIngestion
 output appInsightsConnectionString string = appInsights.properties.ConnectionString
+
+output rgName string = resourceGroup().name
+output aiName string = appInsights.name
+
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = [for role in roles :{
+  name: guid(appInsights.id, role.principalId, role.roleDefinitionId)
+  scope: appInsights
+  properties:{
+    roleDefinitionId: role.roleDefinitionId
+    principalId: role.principalId
+    principalType: role.principalType
+  }
+}]

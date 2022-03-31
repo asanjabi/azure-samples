@@ -3,10 +3,11 @@ param serverName string
 param adminSid string
 param adminSidType string
 param adminLogin string
+param roles array = []
 
 param tags object = {}
 
-resource SqlServer 'Microsoft.Sql/servers@2021-08-01-preview'={
+resource sqlServer 'Microsoft.Sql/servers@2021-08-01-preview'={
   location: location
   name:  serverName
   tags: tags
@@ -26,4 +27,14 @@ resource SqlServer 'Microsoft.Sql/servers@2021-08-01-preview'={
   }
 }
 
-output serverName string = SqlServer.name
+output serverName string = sqlServer.name
+
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = [for role in roles :{
+  name: guid(sqlServer.id, role.principalId, role.roleDefinitionId)
+  scope: sqlServer
+  properties:{
+    roleDefinitionId: role.roleDefinitionId
+    principalId: role.principalId
+    principalType: role.principalType
+  }
+}]

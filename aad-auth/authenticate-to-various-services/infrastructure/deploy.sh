@@ -1,14 +1,14 @@
 #! /bin/bash
 set -euxo pipefail
 
+#switch to the current scripts directory
+DEPLOY_SCIRIPT_DIR="${0%/*}"
+export DEPLOY_SCIRIPT_DIR
+pushd "$DEPLOY_SCIRIPT_DIR"
+
 #Define relative root and load some utilities
 export "ROOT="../../..
 source "${ROOT}"/infra/scripts/utils.sh
-
-#switch to the current scripts directory
-DEPLOY_SCIRIPT_DIR=$(getScriptDir)
-export DEPLOY_SCIRIPT_DIR
-pushd "$DEPLOY_SCIRIPT_DIR"
 
 loadEnvironment
 

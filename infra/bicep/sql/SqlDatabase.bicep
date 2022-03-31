@@ -19,7 +19,7 @@ resource database 'Microsoft.Sql/servers/databases@2021-08-01-preview'={
   sku: sku
 }
 
-resource databaseDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+resource databaseDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if (!empty(logAnalyticsId)){
   name: 'Send_To_LogAnalytics'
   scope: database
   properties: {
