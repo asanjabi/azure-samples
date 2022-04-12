@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "functionAadAuthenticationSettings": {
+        "value": {
+          "clientId": "$PARAM_FUNCTION_1_CLIENT_ID",
+          "clientSecret": "$PARAM_FUNCTION_1_CLIENT_SECRET",
+          "OpenIdIssuer": "$PARAM_OPEN_ID_ISSUER"
+        }
+      }
+    }
+  }

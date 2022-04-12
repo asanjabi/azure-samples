@@ -1,0 +1,10 @@
+{
+    "constants": {
+        "maxStorageAccountNameLength": 23,
+        "logAnalyticsMaxNameLength": 63,
+        "appInsightsMaxNameLength": 255,
+        "functionsMaxNameLength": 60,
+        "appServicePlanMaxNameLength": 40,
+        "signalRServiceMaxNameLength": 63
+    }
+}

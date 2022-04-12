@@ -1,0 +1,19 @@
+#! /bin/bash
+export ResourceGroup="functions-demo"
+export Location="westus"
+
+#If not defined current user will be picked, specify a user (user@domain) or group name
+export AdminName
+
+#define these to authenticate the functions
+
+#For AAD B2C this looks like:
+#"https://<your b2c name>.b2clogin.com/<your b2c name>.onmicrosoft.com/<your signin/up flow name>/v2.0/.well-known/openid-configuration"
+export PARAM_OPEN_ID_ISSUER
+
+#Client id of the app registration for the function
+export PARAM_FUNCTION_1_CLIENT_ID
+
+#Client secret of the app registration for the function
+#Declare this outside on in .env.loca
+#export PARAM_FUNCTION_1_CLIENT_SECRET
