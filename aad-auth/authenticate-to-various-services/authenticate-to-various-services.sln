@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderFunction", "SenderFunction\SenderFunction.csproj", "{91CD63D4-2069-4D79-8D1B-1E2722E0847B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SenderFunction", "SenderFunction\SenderFunction.csproj", "{91CD63D4-2069-4D79-8D1B-1E2722E0847B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceiverFunction", "ReceiverFunction\ReceiverFunction.csproj", "{DB2AD297-2DF0-418A-B1C7-3A5BCCE91B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReceiverFunction", "ReceiverFunction\ReceiverFunction.csproj", "{DB2AD297-2DF0-418A-B1C7-3A5BCCE91B22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBusConsoleApp", "ServiceBusConsoleApp\ServiceBusConsoleApp.csproj", "{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceBusConsoleApp", "ServiceBusConsoleApp\ServiceBusConsoleApp.csproj", "{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azure-sql-with-ef6", "azure-sql-with-ef6\azure-sql-with-ef6.csproj", "{D68E7344-E2D2-4402-A0D2-58780FE72053}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B180D99-8B08-4CD9-AFC0-84CE2422D7BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D68E7344-E2D2-4402-A0D2-58780FE72053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D68E7344-E2D2-4402-A0D2-58780FE72053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D68E7344-E2D2-4402-A0D2-58780FE72053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D68E7344-E2D2-4402-A0D2-58780FE72053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
