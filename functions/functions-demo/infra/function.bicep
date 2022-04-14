@@ -81,7 +81,7 @@ var basicSettings = [
   }
   ((!empty(functionAadAuthenticationSettings)) ? {
     name: 'MICROSOFT_PROVIDER_AUTHENTICATION_SECRET'
-    value: functionAadAuthenticationSettings.clientId
+    value: functionAadAuthenticationSettings.clientSecret
   } : null)
 ]
 
