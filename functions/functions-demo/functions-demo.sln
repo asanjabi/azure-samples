@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "Website\Website.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "demo-function", "demo-function\demo-function.csproj", "{E7B4F62F-FB86-4209-8925-3614B398320F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR-sample", "SignalR-sample\SignalR-sample.csproj", "{924116F5-8CE8-4610-8A69-E72E2A895B31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "signalr-sample", "signalr-sample\signalr-sample.csproj", "{B434114C-B22B-4718-9680-7CF7C8EC5308}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{E7B4F62F-FB86-4209-8925-3614B398320F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7B4F62F-FB86-4209-8925-3614B398320F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7B4F62F-FB86-4209-8925-3614B398320F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{924116F5-8CE8-4610-8A69-E72E2A895B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{924116F5-8CE8-4610-8A69-E72E2A895B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{924116F5-8CE8-4610-8A69-E72E2A895B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{924116F5-8CE8-4610-8A69-E72E2A895B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B434114C-B22B-4718-9680-7CF7C8EC5308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B434114C-B22B-4718-9680-7CF7C8EC5308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B434114C-B22B-4718-9680-7CF7C8EC5308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B434114C-B22B-4718-9680-7CF7C8EC5308}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

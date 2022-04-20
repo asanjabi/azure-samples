@@ -1,0 +1,125 @@
+﻿@page "/signalr"
+@using Microsoft.AspNetCore.SignalR.Client;
+
+<h2>SignalR Demo</h2>
+<hr />
+
+@if (!_connected)
+{
+    <div>
+        <span>Hub URL: </span>
+        <input type="text" @bind="@_hubUrl" />
+    </div>
+    <hr />
+    <button type="button" @onclick="@Connect"><span class="oi oi-loop" aria-hidden="true"></span> Connect</button>
+
+    <hr />
+    @if (_message != string.Empty)
+    {
+        <div class="invalid-feedback">@_message</div>
+        <small id="emailHelp" class="form-text text-muted">@_message</small>
+    }
+}
+else
+{
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span>You are connected to <b>@_hubUrl</b></span>
+        <button class="btn btn-sm btn-warning ml-md-auto" @onclick="@DisconnectAsync"> Disconnect</button>
+    </div>
+
+    <button type="button" @onclick="@GetServerTime"><span class="oi oi-clock" aria-hidden="true"></span> Get Time</button>
+
+    // display messages
+    <div id="scrollbox">
+        @foreach (var item in _messages)
+        {
+            <div>
+                <span><b>@item.Type:</b>  @item.Body</span>
+            </div>
+        }
+        <hr />
+    </div>
+}
+
+
+@code {
+    // flag to indicate chat status
+    private bool _connected = false;
+    private List<Message> _messages = new List<Message>();
+
+    private string _hubUrl = "http://localhost:7071/api";
+    private HubConnection _hubConnection;
+    private string _message = string.Empty;
+
+    public async Task Connect()
+    {
+        try
+        {
+            this._connected = true;
+            await Task.Delay(1);
+            this._messages.Clear();
+
+            this._hubConnection = new HubConnectionBuilder()
+            .WithUrl(this._hubUrl)
+            .WithAutomaticReconnect()
+            .Build();
+
+            this._hubConnection.On<string>("Broadcast", OnBroadcastMessage);
+            this._hubConnection.On<string>("Direct", OnDirectMessage);
+
+            await this._hubConnection.StartAsync();
+        }
+        catch (Exception e)
+        {
+            _message = $"ERROR: Failed to connect: {e.Message}";
+            _connected = false;
+        }
+    }
+
+    public async Task GetServerTime()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, $"{this._hubUrl}/time")
+            {
+                Content = new StringContent(this._hubConnection.ConnectionId ?? "")
+            };
+
+        using var client = new HttpClient();
+
+        var response = await client.SendAsync(request);
+    }
+    private void OnDirectMessage(string message)
+    {
+        _messages.Add(new Message("Direct", message));
+        StateHasChanged();
+    }
+
+    private void OnBroadcastMessage(string message)
+    {
+        _messages.Add(new Message("Broadcast", message));
+        StateHasChanged();
+    }
+
+    private async Task DisconnectAsync()
+    {
+        if (_connected)
+        {
+            await _hubConnection.StopAsync();
+            await _hubConnection.DisposeAsync();
+
+            _hubConnection = null;
+            _connected = false;
+        }
+    }
+
+    private class Message
+    {
+        public Message(string messageType, string body)
+        {
+            Type = messageType;
+            Body = body;
+        }
+
+        public string Type { get; set; }
+        public string Body { get; set; }
+    }
+}

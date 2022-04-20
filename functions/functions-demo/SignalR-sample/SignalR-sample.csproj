@@ -2,13 +2,18 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
-    <RootNamespace>SignalR_sample</RootNamespace>
+    <RootNamespace>signalrSample</RootNamespace>
+    <UserSecretsId>8ce67f15-1491-470c-87b8-49d3e81073e1</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.SignalRService" Version="1.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Content\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
