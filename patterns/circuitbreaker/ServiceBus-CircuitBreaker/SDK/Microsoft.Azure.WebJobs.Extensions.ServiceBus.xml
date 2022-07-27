@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Azure.WebJobs.Extensions.ServiceBus</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions">
+            <summary>
+            Configuration options for the ServiceBus extension.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.#ctor">
+            <summary>
+            Constructs a new instance.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.PrefetchCount">
+            <summary>
+            Gets or sets the PrefetchCount that will be used when receiving messages. The default value is 0.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.ClientRetryOptions">
+            <summary>
+            The set of options to use for determining whether a failed operation should be retried and,
+            if so, the amount of time to wait between retry attempts.  These options also control the
+            amount of time allowed for receiving messages and other interactions with the Service Bus service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.TransportType">
+             <summary>
+               The type of protocol and transport that will be used for communicating with the Service Bus
+               service.
+             </summary>
+            
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.WebProxy">
+             <summary>
+               The proxy to use for communication over web sockets.
+             </summary>
+            
+             <remarks>
+               A proxy cannot be used for communication over TCP; if web sockets are not in
+               use, specifying a proxy is an invalid option.
+             </remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.AutoCompleteMessages">
+            <summary>
+             Gets or sets whether to automatically complete messages after successful execution of the function.
+             The default value is true.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.MaxAutoLockRenewalDuration">
+            <summary>
+            Gets or sets the maximum duration within which the lock will be renewed automatically. This
+            value should be greater than the longest message lock duration; for example, the LockDuration Property.
+            The default value is 5 minutes. This does not apply for functions that receive a batch of messages.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.MaxConcurrentCalls">
+            <summary>
+            Gets or sets the maximum number of messages that can be processed concurrently by a function.
+            This setting does not apply for functions that receive a batch of messages. The default is 16 times
+            the return value of <see cref="M:Microsoft.Azure.WebJobs.ServiceBus.Utility.GetProcessorCount" />. When <see cref="P:Microsoft.Azure.WebJobs.Host.Scale.ConcurrencyOptions.DynamicConcurrencyEnabled" />
+            is true, this value will be ignored, and concurrency will be increased/decreased dynamically.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.MaxConcurrentSessions">
+            <summary>
+            Gets or sets the maximum number of sessions that can be processed concurrently by a function.
+            The default value is 8. This does not apply for functions that receive a batch of messages.
+            When <see cref="P:Microsoft.Azure.WebJobs.Host.Scale.ConcurrencyOptions.DynamicConcurrencyEnabled" /> is true, this value will be ignored,
+            and concurrency will be increased/decreased dynamically.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.ProcessErrorAsync">
+            <summary>
+            Gets or sets an optional error handler that will be invoked if an exception occurs while attempting to process
+            a message. This does not apply for functions that receive a batch of messages.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.SessionInitializingAsync">
+            <summary>
+            Optional handler that can be set to be notified when a new session is about to be processed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.SessionClosingAsync">
+            <summary>
+            Optional handler that can be set to be notified when a session is about to be closed for processing.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.MaxMessageBatchSize">
+            <summary>
+            Gets or sets the maximum number of messages that will be passed to each function call. This only applies for functions that receive
+            a batch of messages. The default value is 1000.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.SessionIdleTimeout">
+            <summary>
+            Gets or sets the maximum amount of time to wait for a message to be received for the
+            currently active session. After this time has elapsed, the processor will close the session
+            and attempt to process another session.
+            If not specified, the <see cref="P:Azure.Messaging.ServiceBus.ServiceBusRetryOptions.TryTimeout" /> will be used.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.JsonSerializerSettings">
+            <summary>
+            Gets or sets the JSON serialization settings to use when binding to POCOs.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.EnableCrossEntityTransactions">
+            <summary>
+            
+             Gets or sets a flag that indicates whether or not transactions may span multiple
+             Service Bus entities.
+             
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.Microsoft#Azure#WebJobs#Hosting#IOptionsFormatter#Format">
+            <summary>
+            Formats the options as JSON objects for display.
+            </summary>
+            <returns>Options formatted as JSON.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor">
+            <summary>
+            This class defines a strategy used for processing Service Bus messages.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor.#ctor(Azure.Messaging.ServiceBus.ServiceBusProcessor)">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor" />.
+            </summary>
+            <param name="processor">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusProcessor" /> to use for processing messages from Service Bus.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor.Processor">
+            <summary>
+            Gets or sets the <see cref="T:Azure.Messaging.ServiceBus.ServiceBusProcessor" /> that will be used by the <see cref="P:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor.Processor" />.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor.BeginProcessingMessageAsync(Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions,Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Threading.CancellationToken)">
+            <summary>
+            This method is called when there is a new message to process, before the job function is invoked.
+            This allows any preprocessing to take place on the message before processing begins.
+            </summary>
+            <param name="actions">The set of actions that can be performed on a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />.</param>
+            <param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to process.</param>
+            <param name="cancellationToken">A cancellation token that will be cancelled when the processor is shutting down.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task" /> that returns true if the message processing should continue, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor.CompleteProcessingMessageAsync(Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions,Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,Microsoft.Azure.WebJobs.Host.Executors.FunctionResult,System.Threading.CancellationToken)">
+            <summary>
+            This method completes processing of the specified message, after the job function has been invoked.
+            </summary>
+            <remarks>
+            The message is completed by the ServiceBus SDK based on how the <see cref="P:Azure.Messaging.ServiceBus.ServiceBusProcessorOptions.AutoCompleteMessages" /> option
+            is configured. E.g. if <see cref="P:Azure.Messaging.ServiceBus.ServiceBusProcessorOptions.AutoCompleteMessages" /> is false, it is up to the job function to complete
+            the message.
+            </remarks>
+            <param name="actions">The set of actions that can be performed on a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />.</param>
+            <param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to process.</param>
+            <param name="result">The <see cref="T:Microsoft.Azure.WebJobs.Host.Executors.FunctionResult" /> from the job invocation.</param>
+            <param name="cancellationToken">A cancellation token that will be cancelled when the processor is shutting down.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task" /> that will complete the message processing.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider">
+            <summary>
+            This class provides factory methods for the creation of instances
+            used for Service Bus message processing. It can be overriden to customize
+            any of the client creation methods.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions})">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />.
+            This is called by the Functions runtime as part of start up.
+            </summary>
+            <param name="options">The options that are used to configure the client instances.</param>
+            <exception cref="T:System.ArgumentNullException">The options instance is null.</exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateClient(System.String,Azure.Messaging.ServiceBus.ServiceBusClientOptions)">
+            <summary>
+            Creates a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusClient" /> to use for communicating with the service.
+            </summary>
+            <param name="connectionString">The connection string to use for connecting to the
+            Service Bus namespace.</param>
+            <param name="options">The set of options to use for configuring the client. These options are
+            computed from the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions" /> passed to the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />
+            constructor.</param>
+            <returns>The client that will be used by the extension for communicating with the service.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateClient(System.String,Azure.Core.TokenCredential,Azure.Messaging.ServiceBus.ServiceBusClientOptions)">
+            <summary>
+            Creates a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusClient" /> to use for communicating with the service.
+            </summary>
+            <param name="fullyQualifiedNamespace">The connection string to use for connecting to the
+            Service Bus namespace.</param>
+            <param name="credential">The Azure managed identity credential to use for authorization.
+            Access controls may be specified by the Service Bus namespace.</param>
+            <param name="options">The set of options to use for configuring the client. These options are
+            computed from the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions" /> passed to the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />
+            constructor.</param>
+            <returns>The client that will be used by the extension for communicating with the service.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateMessageProcessor(Azure.Messaging.ServiceBus.ServiceBusClient,System.String,Azure.Messaging.ServiceBus.ServiceBusProcessorOptions)">
+            <summary>
+            Creates a <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessageProcessor" /> instance that will be used to process messages.
+            </summary>
+            <param name="client">The client that is being used to communicate with the service.</param>
+            <param name="entityPath">The path to the Service Bus entity that is being received from.</param>
+            <param name="options">The set of options to use for configuring the processor. These options are
+            computed from the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions" /> passed to the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />
+            constructor.</param>
+            <returns>A message processor that will be used by the extension.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateProcessor(Azure.Messaging.ServiceBus.ServiceBusClient,System.String,Azure.Messaging.ServiceBus.ServiceBusProcessorOptions)">
+            <summary>
+            Creates a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusProcessor" /> instance that will be used to receive messages from the entity.
+            </summary>
+            <param name="client">The client that is being used to communicate with the service.</param>
+            <param name="entityPath">The path to the Service Bus entity that is being received from.</param>
+            <param name="options">The set of options to use for configuring the processor. These options are
+            computed from the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions" /> passed to the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />
+            constructor.</param>
+            <remarks>This method is called for functions that bind to a single message.</remarks>
+            <returns>A <see cref="T:Azure.Messaging.ServiceBus.ServiceBusProcessor" /> that will be used by the extension.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateMessageSender(Azure.Messaging.ServiceBus.ServiceBusClient,System.String)">
+            <summary>
+            Creates a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusSender" /> that will be used to send messages to the queue
+            or topic.
+            </summary>
+            <param name="client">The client that is being used to communicate with the service.</param>
+            <param name="entityPath">The path to the Service Bus entity that is being received from.</param>
+            <returns>A sender that the extension will use to send messages.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateBatchMessageReceiver(Azure.Messaging.ServiceBus.ServiceBusClient,System.String,Azure.Messaging.ServiceBus.ServiceBusReceiverOptions)">
+            <summary>
+            Creates a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceiver" /> that will be used to receive a batch of messages.
+            </summary>
+            <param name="client">The client that is being used to communicate with the service.</param>
+            <param name="entityPath">The path to the Service Bus entity that is being received from.</param>
+            <param name="options">The set of options to use for configuring the receiver. These options are
+            computed from the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions" /> passed to the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />
+            constructor.</param>
+            <remarks>This method is called for functions that bind to multiple messages.</remarks>
+            <returns>A receiver that will be used by the extension to receive a batch of messages.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateSessionMessageProcessor(Azure.Messaging.ServiceBus.ServiceBusClient,System.String,Azure.Messaging.ServiceBus.ServiceBusSessionProcessorOptions)">
+            <summary>
+            Creates a <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.SessionMessageProcessor" /> instance that will be used to process messages.
+            </summary>
+            <param name="client">The client that is being used to communicate with the service.</param>
+            <param name="entityPath">The path to the Service Bus entity that is being received from.</param>
+            <param name="options">The set of options to use for configuring the processor. These options are
+            computed from the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions" /> passed to the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />
+            constructor.</param>
+            <returns>A message processor that will be used by the extension.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider.CreateSessionProcessor(Azure.Messaging.ServiceBus.ServiceBusClient,System.String,Azure.Messaging.ServiceBus.ServiceBusSessionProcessorOptions)">
+            <summary>
+            Creates a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusProcessor" /> instance that will be used to receive messages from the entity.
+            </summary>
+            <param name="client">The client that is being used to communicate with the service.</param>
+            <param name="entityPath">The path to the Service Bus entity that is being received from.</param>
+            <param name="options">The set of options to use for configuring the processor. These options are
+            computed from the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions" /> passed to the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.MessagingProvider" />
+            constructor.</param>
+            <remarks>This method is called for functions that bind to a single message.</remarks>
+            <returns>A <see cref="T:Azure.Messaging.ServiceBus.ServiceBusProcessor" /> that will be used by the extension.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions">
+            <summary>
+            Represents the set of message actions that can be performed on a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions.#ctor">
+             <summary>
+             Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions" /> class for mocking use in testing.
+             </summary>
+             <remarks>
+             This constructor exists only to support mocking. When used, class state is not fully initialized, and
+             will not function correctly; virtual members are meant to be mocked.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions.AbandonMessageAsync(Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+             Abandons a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />.This will make the message available again for immediate processing as the lock on the message held by the receiver will be released.
+             </summary><param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to abandon.</param><param name="propertiesToModify">The properties of the message to modify while abandoning the message.</param><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><remarks>
+             Abandoning a message will increase the delivery count on the message.
+             This operation can only be performed on messages that were received by this receiver
+             when <see cref="P:Azure.Messaging.ServiceBus.ServiceBusReceiver.ReceiveMode" /> is set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusReceiveMode.PeekLock" />.
+             </remarks><returns>A task to be resolved on when the operation has completed.</returns><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException"><list type="bullet"><item><description>
+                     The lock for the message has expired or the message has already been completed. This does not apply for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.MessageLockLost" /> in this case.
+                   </description></item><item><description>
+                     The lock for the session has expired or the message has already been completed. This only applies for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+                   </description></item></list></exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions.CompleteMessageAsync(Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Threading.CancellationToken)">
+            <summary>
+             Completes a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />. This will delete the message from the service.
+             </summary><param name="message">The message to complete.</param><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><remarks>
+             This operation can only be performed on a message that was received by this receiver
+             when <see cref="P:Azure.Messaging.ServiceBus.ServiceBusReceiver.ReceiveMode" /> is set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusReceiveMode.PeekLock" />.
+             </remarks><returns>A task to be resolved on when the operation has completed.</returns><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException"><list type="bullet"><item><description>
+                     The lock for the message has expired or the message has already been completed. This does not apply for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.MessageLockLost" /> in this case.
+                   </description></item><item><description>
+                     The lock for the session has expired or the message has already been completed. This only applies for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+                   </description></item></list></exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions.DeadLetterMessageAsync(Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+             Moves a message to the dead-letter subqueue.
+             </summary><param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to dead-letter.</param><param name="deadLetterReason">The reason for dead-lettering the message.</param><param name="deadLetterErrorDescription">The error description for dead-lettering the message.</param><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><remarks>
+             In order to receive a message from the dead-letter queue or transfer dead-letter queue,
+             set the <see cref="P:Azure.Messaging.ServiceBus.ServiceBusReceiverOptions.SubQueue" /> property to <see cref="F:Azure.Messaging.ServiceBus.SubQueue.DeadLetter" />
+             or <see cref="F:Azure.Messaging.ServiceBus.SubQueue.TransferDeadLetter" /> when calling
+             <see cref="M:Azure.Messaging.ServiceBus.ServiceBusClient.CreateReceiver(System.String,Azure.Messaging.ServiceBus.ServiceBusReceiverOptions)" /> or
+             <see cref="M:Azure.Messaging.ServiceBus.ServiceBusClient.CreateReceiver(System.String,System.String,Azure.Messaging.ServiceBus.ServiceBusReceiverOptions)" />.
+             This operation can only be performed when <see cref="P:Azure.Messaging.ServiceBus.ServiceBusReceiver.ReceiveMode" /> is set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusReceiveMode.PeekLock" />.
+             </remarks><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException"><list type="bullet"><item><description>
+                     The lock for the message has expired or the message has already been completed. This does not apply for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.MessageLockLost" /> in this case.
+                   </description></item><item><description>
+                     The lock for the session has expired or the message has already been completed. This only applies for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+                   </description></item></list></exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions.DeadLetterMessageAsync(Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+             Moves a message to the dead-letter subqueue.
+             </summary><param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to dead-letter.</param><param name="propertiesToModify">The properties of the message to modify while moving to subqueue.</param><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><remarks>
+             In order to receive a message from the dead-letter queue or transfer dead-letter queue,
+             set the <see cref="P:Azure.Messaging.ServiceBus.ServiceBusReceiverOptions.SubQueue" /> property to <see cref="F:Azure.Messaging.ServiceBus.SubQueue.DeadLetter" />
+             or <see cref="F:Azure.Messaging.ServiceBus.SubQueue.TransferDeadLetter" /> when calling
+             <see cref="M:Azure.Messaging.ServiceBus.ServiceBusClient.CreateReceiver(System.String,Azure.Messaging.ServiceBus.ServiceBusReceiverOptions)" /> or
+             <see cref="M:Azure.Messaging.ServiceBus.ServiceBusClient.CreateReceiver(System.String,System.String,Azure.Messaging.ServiceBus.ServiceBusReceiverOptions)" />.
+             This operation can only be performed when <see cref="P:Azure.Messaging.ServiceBus.ServiceBusReceiver.ReceiveMode" /> is set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusReceiveMode.PeekLock" />.
+             </remarks><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException"><list type="bullet"><item><description>
+                     The lock for the message has expired or the message has already been completed. This does not apply for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.MessageLockLost" /> in this case.
+                   </description></item><item><description>
+                     The lock for the session has expired or the message has already been completed. This only applies for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+                   </description></item></list></exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions.DeferMessageAsync(Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary> Indicates that the receiver wants to defer the processing for the message.</summary><param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to defer.</param><param name="propertiesToModify">The properties of the message to modify while deferring the message.</param><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><remarks>
+             In order to receive this message again in the future, you will need to save the
+             <see cref="P:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage.SequenceNumber" />
+             and receive it using <see cref="M:Azure.Messaging.ServiceBus.ServiceBusReceiver.ReceiveDeferredMessageAsync(System.Int64,System.Threading.CancellationToken)" />.
+             Deferring messages does not impact message's expiration, meaning that deferred messages can still expire.
+             This operation can only be performed on messages that were received by this receiver.
+             </remarks><returns>A task to be resolved on when the operation has completed.</returns><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException"><list type="bullet"><item><description>
+                     The lock for the message has expired or the message has already been completed. This does not apply for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.MessageLockLost" /> in this case.
+                   </description></item><item><description>
+                     The lock for the session has expired or the message has already been completed. This only applies for session-enabled entities.
+                     The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+                   </description></item></list></exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusMessageActions.RenewMessageLockAsync(Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Threading.CancellationToken)">
+            <summary>
+             Renews the lock on the message. The lock will be renewed based on the setting specified on the queue.
+             </summary><remarks>
+             When a message is received in <see cref="F:Azure.Messaging.ServiceBus.ServiceBusReceiveMode.PeekLock" /> mode, the message is locked on the server for this
+             receiver instance for a duration as specified during the Queue/Subscription creation (LockDuration).
+             If processing of the message requires longer than this duration, the lock needs to be renewed.
+             For each renewal, it resets the time the message is locked by the LockDuration set on the Entity.
+             </remarks><param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to renew the lock for.</param><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException">
+               The lock for the message has expired or the message has already been completed.
+               The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.MessageLockLost" /> in this case.
+             </exception>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusReceiveActions">
+            <summary>
+            Represents the set of receive actions that can be taken from within a function invocation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusReceiveActions.#ctor">
+             <summary>
+             Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusReceiveActions" /> class for mocking use in testing.
+             </summary>
+             <remarks>
+             This constructor exists only to support mocking. When used, class state is not fully initialized, and
+             will not function correctly; virtual members are meant to be mocked.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusReceiveActions.ReceiveMessagesAsync(System.Int32,System.Nullable{System.TimeSpan},System.Threading.CancellationToken)">
+             <summary>
+             Receives a list of <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> from the entity.
+             This method doesn't guarantee to return exact `maxMessages` messages, even if there are `maxMessages` messages available in the queue or topic.
+             Messages received using this method are subject to the behavior defined in the <see cref="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.AutoCompleteMessages" />.
+             When this method is used in a single-dispatch functions, messages received are subject to <see cref="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.MaxAutoLockRenewalDuration" />.
+             </summary>
+            
+             <param name="maxMessages">The maximum number of messages that will be received.</param>
+             <param name="maxWaitTime">An optional <see cref="T:System.TimeSpan" /> specifying the maximum time to wait for the first message before returning an empty list if no messages are available.
+             If not specified, the <see cref="P:Azure.Messaging.ServiceBus.ServiceBusRetryOptions.TryTimeout" /> will be used.</param>
+             <param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param>
+            
+             <returns>List of messages received. Returns an empty list if no message is found.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusReceiveActions.ReceiveDeferredMessagesAsync(System.Collections.Generic.IEnumerable{System.Int64},System.Threading.CancellationToken)">
+             <summary>
+             Receives a list of deferred <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> identified by <paramref name="sequenceNumbers" />.
+             Messages received using this method are subject to the behavior defined in the <see cref="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.AutoCompleteMessages" />.
+             When this method is used in a single-dispatch functions, messages received are subject to <see cref="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.MaxAutoLockRenewalDuration" />.
+             </summary>
+            
+             <param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param>
+             <param name="sequenceNumbers">An <see cref="T:System.Collections.Generic.IEnumerable`1" /> containing the sequence numbers to receive.</param>
+            
+             <returns>Messages identified by sequence number are returned.
+             Throws if the messages have not been deferred.</returns>
+             <seealso cref="M:Azure.Messaging.ServiceBus.ProcessMessageEventArgs.DeferMessageAsync(Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Collections.Generic.IDictionary{System.String,System.Object},System.Threading.CancellationToken)" />
+             <exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException">
+               The specified sequence number does not correspond to a message that has been deferred.
+               The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.MessageNotFound" /> in this case.
+             </exception>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions">
+            <summary>
+            Represents the set of actions that can be performed on a session
+            and a message received from a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions.SessionLockedUntil">
+            <summary>
+            Gets the <see cref="T:System.DateTimeOffset" /> that the receiver's session is locked until.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions.#ctor">
+             <summary>
+             Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions" /> class for mocking use in testing.
+             </summary>
+             <remarks>
+             This constructor exists only to support mocking. When used, class state is not fully initialized, and
+             will not function correctly; virtual members are meant to be mocked.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions.GetSessionStateAsync(System.Threading.CancellationToken)">
+            <summary>
+             Gets the session state.
+             </summary><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><returns>The session state as <see cref="T:System.BinaryData" />.</returns><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException">
+               The lock for the session has expired.
+               The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+             </exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions.SetSessionStateAsync(System.BinaryData,System.Threading.CancellationToken)">
+            <summary>
+             Set a custom state on the session which can be later retrieved using <see cref="M:Azure.Messaging.ServiceBus.ServiceBusSessionReceiver.GetSessionStateAsync(System.Threading.CancellationToken)" /></summary><param name="sessionState">A <see cref="T:System.BinaryData" /> of session state</param><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><remarks>This state is stored on Service Bus forever unless you set an empty state on it.</remarks><returns>A task to be resolved on when the operation has completed.</returns><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException">
+               The lock for the session has expired.
+               The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+             </exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions.ReleaseSession">
+            <summary>
+            Releases the session that is being processed. No new receives will be initiated for the session before the
+            session is closed. Any already received messages will still be delivered to the user message handler, and in-flight message handlers
+            will be allowed to complete. Messages will still be completed automatically if <see cref="P:Azure.Messaging.ServiceBus.ServiceBusSessionProcessorOptions.AutoCompleteMessages" />
+            is <c>true</c>.
+            The session may end up being reopened for processing immediately after closing if there are messages remaining in the session (
+            This depends on what other session messages may be in the queue or subscription).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions.RenewSessionLockAsync(System.Threading.CancellationToken)">
+            <summary>
+             Renews the lock on the session specified by the <see cref="P:Azure.Messaging.ServiceBus.ServiceBusSessionReceiver.SessionId" />. The lock will be renewed based on the setting specified on the entity.
+             </summary><param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken" /> instance to signal the request to cancel the operation.</param><remarks><para>
+             When you accept a session, the session is locked for this receiver by the service for a duration as specified during the Queue/Subscription creation.
+             If processing of the session requires longer than this duration, the session-lock needs to be renewed.
+             For each renewal, it resets the time the session is locked by the LockDuration set on the Entity.
+             </para><para>
+             Renewal of session renews all the messages in the session as well. Each individual message need not be renewed.
+             </para></remarks><exception cref="T:Azure.Messaging.ServiceBus.ServiceBusException">
+               The lock for the session has expired.
+               The <see cref="P:Azure.Messaging.ServiceBus.ServiceBusException.Reason" /> will be set to <see cref="F:Azure.Messaging.ServiceBus.ServiceBusFailureReason.SessionLockLost" /> in this case.
+             </exception>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.SessionMessageProcessor.#ctor(Azure.Messaging.ServiceBus.ServiceBusSessionProcessor)">
+            <summary>
+            Initializes a new instance of <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.SessionMessageProcessor" />.
+            </summary>
+            <param name="processor">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusSessionProcessor" /> to use for processing messages from Service Bus.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBus.SessionMessageProcessor.Processor">
+            <summary>
+            Gets the <see cref="T:Azure.Messaging.ServiceBus.ServiceBusSessionProcessor" /> that will be used by the <see cref="T:Microsoft.Azure.WebJobs.ServiceBus.SessionMessageProcessor" />.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.SessionMessageProcessor.BeginProcessingMessageAsync(Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions,Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,System.Threading.CancellationToken)">
+            <summary>
+            This method is called when there is a new message to process, before the job function is invoked.
+            This allows any preprocessing to take place on the message before processing begins.
+            </summary>
+            <param name="actions">The set of actions that can be performed on a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />.</param>
+            <param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to process.</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> to use.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task" /> that returns true if the message processing should continue, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBus.SessionMessageProcessor.CompleteProcessingMessageAsync(Microsoft.Azure.WebJobs.ServiceBus.ServiceBusSessionMessageActions,Azure.Messaging.ServiceBus.ServiceBusReceivedMessage,Microsoft.Azure.WebJobs.Host.Executors.FunctionResult,System.Threading.CancellationToken)">
+            <summary>
+            This method completes processing of the specified message, after the job function has been invoked.
+            </summary>
+            <remarks>
+            The message is completed by the ServiceBus SDK based on how the <see cref="P:Azure.Messaging.ServiceBus.ServiceBusSessionProcessorOptions.AutoCompleteMessages" /> option
+            is configured. E.g. if <see cref="P:Azure.Messaging.ServiceBus.ServiceBusSessionProcessorOptions.AutoCompleteMessages" /> is false, it is up to the job function to complete
+            the message.
+            </remarks>
+            <param name="actions">The set of actions that can be performed on a <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" />.</param>
+            <param name="message">The <see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /> to process.</param>
+            <param name="result">The <see cref="T:Microsoft.Azure.WebJobs.Host.Executors.FunctionResult" /> from the job invocation.</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken" /> to use</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task" /> that will complete the message processing.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusEntityType">
+            <summary>
+            Service Bus entity type.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusEntityType.Queue">
+            <summary>
+            Service Bus Queue
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusEntityType.Topic">
+            <summary>
+            Service Bus Topic
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBusAccountAttribute">
+            <summary>
+            Attribute used to override the default ServiceBus account used by triggers and binders.
+            </summary>
+            <remarks>
+            This attribute can be applied at the parameter/method/class level, and the precedence
+            is in that order.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBusAccountAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="account">A string value indicating the Service Bus connection string to use. This
+            string should be in one of the following formats. These checks will be applied in order and the
+            first match wins.
+            - The name of an "AzureWebJobs" prefixed app setting or connection string name. E.g., if your setting
+              name is "AzureWebJobsMyServiceBus", you can specify "MyServiceBus" here.
+            - Can be a string containing %% values (e.g. %StagingServiceBus%). The value provided will be passed
+              to any INameResolver registered on the JobHostConfiguration to resolve the actual setting name to use.
+            - Can be an app setting or connection string name of your choosing.
+            </param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusAccountAttribute.Account">
+            <summary>
+            Gets or sets the name of the app setting that contains the Service Bus connection string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusAccountAttribute.Microsoft#Azure#WebJobs#IConnectionProvider#Connection">
+            <summary>
+            Gets or sets the app setting name that contains the Service Bus connection string.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBusAttribute">
+            <summary>
+            Attribute used to bind a parameter to Azure ServiceBus Queues and Topics.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBusAttribute.#ctor(System.String,Microsoft.Azure.WebJobs.ServiceBus.ServiceBusEntityType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.ServiceBusAttribute" /> class.
+            </summary>
+            <param name="queueOrTopicName">The name of the queue or topic to bind to.</param>
+            <param name="entityType">The type of the entity to bind to.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusAttribute.QueueOrTopicName">
+            <summary>
+            Gets the name of the queue or topic to bind to.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusAttribute.Connection">
+            <summary>
+            Gets or sets the app setting name that contains the Service Bus connection string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusAttribute.EntityType">
+            <summary>
+            Value indicating the type of the entity to bind to.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute">
+            <summary>
+            Attribute used to bind a parameter to a ServiceBus Queue message, causing the function to run when a
+            message is enqueued.
+            </summary>
+            <remarks>
+            The method parameter type can be one of the following:
+            <list type="bullet">
+            <item><description><see cref="T:Azure.Messaging.ServiceBus.ServiceBusReceivedMessage" /></description></item>
+            <item><description><see cref="T:System.String" /></description></item>
+            <item><description><see cref="T:System.Byte" />array</description></item>
+            <item><description><see cref="T:System.BinaryData" /></description></item>
+            <item><description>A user-defined type (serialized as JSON)</description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute" /> class.
+            </summary>
+            <param name="queueName">The name of the queue to which to bind.</param>
+        </member>
+        <member name="M:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute" /> class.
+            </summary>
+            <param name="topicName">The name of the topic to bind to.</param>
+            <param name="subscriptionName">The name of the subscription in <paramref name="topicName" /> to bind to.</param>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.Connection">
+            <summary>
+            Gets or sets the app setting name that contains the Service Bus connection string.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.QueueName">
+            <summary>
+            Gets the name of the queue to bind to.
+            </summary>
+            <remarks>When binding to a subscription in a topic, returns <see langword="null" />.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.TopicName">
+            <summary>
+            Gets the name of the topic to bind to.
+            </summary>
+            <remarks>When binding to a queue, returns <see langword="null" />.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.SubscriptionName">
+            <summary>
+            Gets the name of the subscription in <see cref="P:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.TopicName" /> to bind to.
+            </summary>
+            <remarks>When binding to a queue, returns <see langword="null" />.</remarks>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.IsSessionsEnabled">
+            <summary>
+            Gets or sets a value indicating whether sessions are enabled.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.WebJobs.ServiceBusTriggerAttribute.AutoCompleteMessages">
+            <summary>
+            Gets or sets a value indicating whether trigger should automatically complete the message after successful processing. If not explicitly set, the behavior will be based on the <see cref="P:Microsoft.Azure.WebJobs.ServiceBus.ServiceBusOptions.AutoCompleteMessages" /> value.
+            </summary>
+        </member>
+        <member name="T:Azure.Messaging.ServiceBus.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.AmqpFieldSessionId">
+            <summary>
+              Looks up a localized string similar to Failed to retreive session ID from broker. Please retry..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.AmqpMessageSizeExceeded">
+            <summary>
+              Looks up a localized string similar to The received message (delivery-id:{0}, size:{1} bytes) exceeds the limit ({2} bytes) currently allowed on the link..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ArgumentInvalidCombination">
+            <summary>
+              Looks up a localized string similar to The following arguments must all be provided or none at all: {0}..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ArgumentMustBePositive">
+            <summary>
+              Looks up a localized string similar to The value of the argument {0} must be positive..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ArgumentNullOrWhiteSpace">
+            <summary>
+              Looks up a localized string similar to The argument {0} is null or white space..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ArgumentStringTooBig">
+            <summary>
+              Looks up a localized string similar to The argument '{0}' cannot exceed {1} characters..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.BrokeredMessageListIsNullOrEmpty">
+            <summary>
+              Looks up a localized string similar to There are no brokeredMessages supplied. Please make sure input messages are not empty..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CannotLockMessageOnSessionEntity">
+            <summary>
+              Looks up a localized string similar to Messages cannot be locked when working with session-enabled entities. Locks are handled at the session level..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CannotRegisterNonSessionEventHandlerWhenUsingSession">
+            <summary>
+              Looks up a localized string similar to When using a sessionful entity, the Session event handler must be used..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CannotRegisterSessionEventHandlerWhenNotUsingSessions">
+            <summary>
+              Looks up a localized string similar to When not using a sessionful entity, the non-session event handler must be used..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CannotSendAnEmptyMessage">
+            <summary>
+              Looks up a localized string similar to Sending empty {0} is not a valid operation..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CannotStartMessageProcessorWithoutHandler">
+            <summary>
+              Looks up a localized string similar to Cannot begin processing without {0} handler set..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CharacterReservedForUriScheme">
+            <summary>
+              Looks up a localized string similar to '{0}' contains character '{1}' which is not allowed because it is reserved in the Uri scheme..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ClosedInstanceCannotPerformOperation">
+            <summary>
+              Looks up a localized string similar to {0} has already been closed and cannot perform the requested operation..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CouldNotAcquireAccessToken">
+            <summary>
+              Looks up a localized string similar to Unable to acquire an access token using the provided credential..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.CouldNotCreateLink">
+            <summary>
+              Looks up a localized string similar to Unable to create the items needed to communicate with the Service Bus service..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.DefaultServerBusyException">
+            <summary>
+              Looks up a localized string similar to This request has been blocked because the entity or namespace is being throttled. Please retry the operation, and if condition continues, please slow down your rate of request..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.DisposedConnectionMessageProcessorMustStop">
+            <summary>
+              Looks up a localized string similar to The message processor is unable to continue and will stop processing; the host application has closed the connection to the Service Bus service..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ExponentialRetryBackoffRange">
+            <summary>
+              Looks up a localized string similar to The minimum back off period '{0}' cannot exceed the maximum back off period of '{1}'..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.FailedToSerializeUnsupportedType">
+            <summary>
+              Looks up a localized string similar to Serialization operation failed due to unsupported type {0}..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.HandlerHasAlreadyBeenAssigned">
+            <summary>
+              Looks up a localized string similar to Another handler has already been assigned to this event and there can be only one..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.HandlerHasNotBeenAssigned">
+            <summary>
+              Looks up a localized string similar to This handler has not been previously assigned to this event..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidAmqpMessageBodyType">
+            <summary>
+              Looks up a localized string similar to {0} is not a supported body type..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidAmqpMessageProperty">
+            <summary>
+              Looks up a localized string similar to {0} is not a supported user property type..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidAmqpMessageValueBody">
+            <summary>
+              Looks up a localized string similar to {0} is not a supported value body type..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidCharacterInEntityName">
+            <summary>
+              Looks up a localized string similar to The entity name or path contains an invalid character '{0}'. The supplied value is '{1}'..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidConnectionString">
+            <summary>
+              Looks up a localized string similar to The connection string could not be parsed; either it was malformed or contains no well-known tokens..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidEncoding">
+            <summary>
+              Looks up a localized string similar to The string has an invalid encoding format..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidEndpointAddress">
+            <summary>
+              Looks up a localized string similar to The endpoint address could not be parsed; it was either malformed or not using the `sb://` scheme..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidFullyQualifiedNamespace">
+            <summary>
+              Looks up a localized string similar to The value '{0}' is not a well-formed Service Bus fully qualified namespace..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidSharedAccessSignature">
+            <summary>
+              Looks up a localized string similar to The shared access signature could not be parsed; it was either malformed or incorrectly encoded..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.InvalidTransportType">
+            <summary>
+              Looks up a localized string similar to The requested transport type, '{0}' is not supported..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ListOfLockTokensCannotBeEmpty">
+            <summary>
+              Looks up a localized string similar to List of lock tokens cannot be empty.
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.MaxPermittedLengthExceeded">
+            <summary>
+              Looks up a localized string similar to The maximum permitted length of {0} was exceeded..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.MessageBatchIsLocked">
+            <summary>
+              Looks up a localized string similar to The message batch is currently being used in communication with the Service Bus service; messages may not be added until the active operation is complete..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.MessageHandlerAlreadyRegistered">
+            <summary>
+              Looks up a localized string similar to A message handler has already been registered..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.MessageLockLost">
+            <summary>
+              Looks up a localized string similar to The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue, or was received by a different receiver instance..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.MessageProcessorIsNotRunning">
+            <summary>
+              Looks up a localized string similar to The message processor is not currently running. It needs to be started before it can be stopped..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.MessageSizeExceeded">
+            <summary>
+              Looks up a localized string similar to The message (id:{0}, size:{1} bytes) is larger than is currently allowed ({2} bytes)..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.MissingConnectionInformation">
+            <summary>
+              Looks up a localized string similar to The connection string used for an Service Bus client must specify the Service Bus namespace host and either a Shared Access Key (both the name and value) OR a Shared Access Signature to be valid..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.NotSupportedPropertyType">
+            <summary>
+              Looks up a localized string similar to '{0}' is not a supported type..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.OnlyOneEntityNameMayBeSpecified">
+            <summary>
+              Looks up a localized string similar to The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.OnlyOneSharedAccessAuthorizationMayBeSpecified">
+            <summary>
+              Looks up a localized string similar to The authorization for a connection string may specifiy a shared key or precomputed shared access signature, but not both.  Please verify that your connection string does not have the `SharedAccessSignature` token if you are passing the `SharedKeyName` and `SharedKey`..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.OperationNotSupported">
+            <summary>
+              Looks up a localized string similar to The operation is only supported in 'PeekLock' receive mode..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.PeekLockModeRequired">
+            <summary>
+              Looks up a localized string similar to This operation is not supported for peeked messages. Only messages received in PeekLock mode can be settled..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.PluginAlreadyRegistered">
+            <summary>
+              Looks up a localized string similar to The {0} plugin has already been registered..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.ProxyMustUseWebSockets">
+            <summary>
+              Looks up a localized string similar to A proxy may only be used for a web sockets connection..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.RuleFilterNotSupported">
+            <summary>
+              Looks up a localized string similar to Provided rule filter {0} is not supported. Supported values are: {1}, {2}.
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.RunningMessageProcessorCannotPerformOperation">
+            <summary>
+              Looks up a localized string similar to The message processor is already running and needs to be stopped in order to perform this operation..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.SendViaCannotBeUsedWithEntityInConnectionString">
+            <summary>
+              Looks up a localized string similar to When sending via a different entity, an entity path is not allowed to specified in the connection string..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.SessionFilterMissing">
+            <summary>
+              Looks up a localized string similar to Failed to retreive session filter from broker. Please retry..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.SessionHandlerAlreadyRegistered">
+            <summary>
+              Looks up a localized string similar to A session handler has already been registered..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.SessionLockExpiredOnMessageSession">
+            <summary>
+              Looks up a localized string similar to The session lock was lost. Request a new session receiver..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.SharedAccessKeyIsRequired">
+            <summary>
+              Looks up a localized string similar to In order to update the signature, a shared access key must have been provided when the shared access signature was created..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.SharedKeyCredentialCannotGenerateTokens">
+            <summary>
+              Looks up a localized string similar to A shared key credential is unable to generate a token directly. Please use this credential when creating an Service Bus entity Client, for proper generation of shared key tokens..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.SqlRuleFilterStatmentTooLong">
+            <summary>
+              Looks up a localized string similar to The length of the filter statement is {0}, which exceeds the maximum length of {1}.
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.TimeoutMustBeNonNegative">
+            <summary>
+              Looks up a localized string similar to Argument {0} must be a non-negative timeout value. The provided value was {1}..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.TimeoutMustBePositive">
+            <summary>
+              Looks up a localized string similar to Argument {0} must be a positive timeout value. The provided value was {1}..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.TimeoutMustBePositiveNonZero">
+            <summary>
+              Looks up a localized string similar to Argument {0} must be a positive non-zero timeout value. The provided value was {1}..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.TokenMissingAudience">
+            <summary>
+              Looks up a localized string similar to The provided token does not specify the 'Audience' value..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.TokenMissingExpiresOn">
+            <summary>
+              Looks up a localized string similar to The provided token does not specify the 'ExpiresOn' value..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.TransactionReconnectionError">
+             <summary>
+               Looks up a localized string similar to An attempt was made to reconnect the {0} sender link as part of a cross-entity transaction. This could not be completed successfully because the {1} receiver
+            needs to be re-established first. Attempting the transaction again will allow the correct link to be established first..
+             </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.UnknownConnectionType">
+            <summary>
+              Looks up a localized string similar to The specified connection type, "{0}", is not recognized as valid in this context..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.UnknownRetryMode">
+            <summary>
+              Looks up a localized string similar to The requested retry mode, '{0}', is not known; a retry delay canot be determined..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.UnsupportedCredential">
+            <summary>
+              Looks up a localized string similar to The credential provided is not a supported type..
+            </summary>
+        </member>
+        <member name="P:Azure.Messaging.ServiceBus.Resources.UnsupportedTransportEventType">
+            <summary>
+              Looks up a localized string similar to The requested transport event type, '{0}', is not supported by the active transport client..
+            </summary>
+        </member>
+    </members>
+</doc>
